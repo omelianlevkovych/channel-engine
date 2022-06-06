@@ -1,5 +1,6 @@
-﻿using ChannelEngine.Configuration;
-using ChannelEngine.ExternalApi;
+﻿using ChannelEngine.ChannalEngineApi.Client;
+using ChannelEngine.ChannalEngineApi.Client.Interfaces;
+using ChannelEngine.Configuration;
 using ChannelEngine.ExternalApi.ApiClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,13 @@ await ProcessWork(client);
 
 async Task ProcessWork(IChannelEngineApiClient client)
 {
-    var response = await client.GetOrdersByStatus(OrderStatus.InProgress);
+
+    var statuses = new List<OrderStatus>
+    {
+        OrderStatus.InProgress,
+    };
+
+    var response = await client.GetOrdersByStatus(statuses);
 
     var responseText = JsonSerializer.Serialize(response, new JsonSerializerOptions
     {

@@ -1,4 +1,5 @@
-﻿using ChannelEngine.ExternalApi.Responses;
+﻿using ChannelEngine.ChannalEngineApi.Orders;
+using ChannelEngine.ExternalApi.Responses;
 
 namespace ChannelEngine.ChannalEngineApi.Client.Interfaces
 {

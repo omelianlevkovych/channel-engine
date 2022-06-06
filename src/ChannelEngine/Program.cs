@@ -1,5 +1,7 @@
-﻿using ChannelEngine.ChannalEngineApi.Client;
-using ChannelEngine.ChannalEngineApi.Client.Interfaces;
+﻿using ChannelEngine.ChannalEngineApi.Client.Interfaces;
+using ChannelEngine.ChannalEngineApi.Orders;
+using ChannelEngine.ChannalEngineApi.Orders.StatusConverter;
+using ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Configuration;
 using ChannelEngine.ExternalApi.ApiClient;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +46,8 @@ async Task ProcessWork(IChannelEngineApiClient client)
 
 static void ConfigureServices(IServiceCollection serviceCollection)
 {
+    serviceCollection.AddSingleton<IOrderStatusConverter, OrderStatusConverter>();
+    serviceCollection.AddSingleton<IOrderStatusQueryFactory, OrderStatusQueryFactory>();
     serviceCollection.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
     serviceCollection.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
 }

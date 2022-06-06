@@ -1,6 +1,6 @@
-﻿namespace ChannelEngine.ChannalEngineApi.Client
+﻿namespace ChannelEngine.ChannalEngineApi.Orders.StatusConverter
 {
-    public class OrderStatusConverter
+    public class OrderStatusConverter : IOrderStatusConverter
     {
         private readonly Dictionary<OrderStatus, string> _orderStatuses;
 
@@ -11,7 +11,6 @@
                 { OrderStatus.InProgress, "IN_PROGRESS" }
             };
         }
-
         public string Convert(OrderStatus status)
         {
             var result = _orderStatuses.GetValueOrDefault(status);

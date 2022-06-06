@@ -1,7 +1,9 @@
-﻿namespace ChannelEngine.ExternalApi.ApiClient
+﻿using ChannelEngine.ExternalApi.Responses;
+
+namespace ChannelEngine.ExternalApi.ApiClient
 {
     internal interface IChannelEngineApiClient
     {
-        Task<string> GetOrdersByStatus(OrderStatus status);
+        Task<OrderItemsResponse> GetOrdersByStatus(OrderStatus status);
     }
 }

@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ChannelEngine.ExternalApi.Responses;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace ChannelEngine.ExternalApi.ApiClient
 {
@@ -14,15 +17,21 @@ namespace ChannelEngine.ExternalApi.ApiClient
 
             var apiKey = config["ChannelEngineApi:ApiKey"];
             _httpClient.DefaultRequestHeaders.Add("X-CE-KEY", apiKey);
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        public async Task<string> GetOrdersByStatus(OrderStatus status)
+        public async Task<OrderItemsResponse> GetOrdersByStatus(OrderStatus status)
         {
             // TODO: resolve header based on status
 
             var response = await _httpClient.GetAsync("orders");
             response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStreamAsync();
 
-            return await response.Content.ReadAsStringAsync();
+            var orders = JsonSerializer.Deserialize<OrderItemsResponse>(json);
+
+            ArgumentNullException.ThrowIfNull(orders);
+
+            return orders;
         }
     }
 }

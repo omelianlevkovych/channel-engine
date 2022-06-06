@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using ChannelEngine.ExternalApi.Responses;
+using System.Text.Json.Serialization;
 
-namespace ChannelEngine.ExternalApi.Responses
+namespace ChannelEngine.External.Responses
 {
     public record OrderResponse
     {

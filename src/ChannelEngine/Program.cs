@@ -18,17 +18,22 @@ var serviceProvider = services.BuildServiceProvider();
 
 // Calling the third party
 var client = serviceProvider.GetRequiredService<IChannelEngineApiClient>();
-var response = await client.GetOrdersByStatus(OrderStatus.InProgress);
+await ProcessWork(client);
 
-var responseText = JsonSerializer.Serialize(response, new JsonSerializerOptions
+
+async Task ProcessWork(IChannelEngineApiClient client)
 {
-    WriteIndented = true,
-});
+    var response = await client.GetOrdersByStatus(OrderStatus.InProgress);
 
-Console.WriteLine(responseText);
+    var responseText = JsonSerializer.Serialize(response, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+    });
 
-Console.ReadLine();
+    Console.WriteLine(responseText);
 
+    Console.ReadLine();
+}
 
 static void ConfigureServices(IServiceCollection serviceCollection)
 {

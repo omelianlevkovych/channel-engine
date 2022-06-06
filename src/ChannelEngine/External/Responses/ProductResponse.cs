@@ -4,9 +4,9 @@ namespace ChannelEngine.ExternalApi.Responses
 {
     public record ProductResponse
     {
-        public string Status { get; init; }
+        public string Status { get; init; } = string.Empty;
 
         [JsonPropertyName("MerchantProductNo")]
-        public string MerchantProductNubmer { get; init; }
+        public string MerchantProductNubmer { get; init; } = string.Empty;
     }
 }

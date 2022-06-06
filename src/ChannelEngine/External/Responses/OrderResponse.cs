@@ -5,10 +5,10 @@ namespace ChannelEngine.External.Responses
 {
     public record OrderResponse
     {
-        public string Status { get; init; }
+        public string Status { get; init; } = string.Empty;
 
         [JsonPropertyName("Lines")]
-        public IReadOnlyList<ProductResponse> Products { get; init; }
+        public IReadOnlyList<ProductResponse>? Products { get; init; }
 
     }
 }

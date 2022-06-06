@@ -25,10 +25,9 @@ namespace ChannelEngine.ExternalApi.ApiClient
 
             var response = await _httpClient.GetAsync("orders");
             response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStreamAsync();
+            var jsonResponse = await response.Content.ReadAsStreamAsync();
 
-            var orders = JsonSerializer.Deserialize<OrderItemsResponse>(json);
-
+            var orders = JsonSerializer.Deserialize<OrderItemsResponse>(jsonResponse);
             ArgumentNullException.ThrowIfNull(orders);
 
             return orders;

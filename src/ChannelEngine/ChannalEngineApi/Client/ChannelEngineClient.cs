@@ -1,5 +1,5 @@
-﻿using ChannelEngine.ExternalApi.Responses;
-using Microsoft.Extensions.Configuration;
+﻿using ChannelEngine.Configuration;
+using ChannelEngine.ExternalApi.Responses;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -8,15 +8,12 @@ namespace ChannelEngine.ExternalApi.ApiClient
     internal class ChannelEngineApiClient : IChannelEngineApiClient
     {
         private readonly HttpClient _httpClient;
-        public ChannelEngineApiClient(HttpClient httpClient, IConfiguration config)
+        public ChannelEngineApiClient(HttpClient httpClient, IChannelEngineApiConfiguration config)
         {
             _httpClient = httpClient;
 
-            var baseUrl = config["ChannelEngineApi:BaseAddress"];
-            _httpClient.BaseAddress = new Uri(baseUrl);
-
-            var apiKey = config["ChannelEngineApi:ApiKey"];
-            _httpClient.DefaultRequestHeaders.Add("X-CE-KEY", apiKey);
+            _httpClient.BaseAddress = new Uri(config.BaseAddress);
+            _httpClient.DefaultRequestHeaders.Add("X-CE-KEY", config.ApiKey);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         public async Task<OrderItemsResponse> GetOrdersByStatus(OrderStatus status)

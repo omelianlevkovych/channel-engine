@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ChannelEngine.Configuration;
 using ChannelEngine.ExternalApi;
 using ChannelEngine.ExternalApi.ApiClient;
 using Microsoft.Extensions.Configuration;
@@ -37,5 +38,6 @@ async Task ProcessWork(IChannelEngineApiClient client)
 
 static void ConfigureServices(IServiceCollection serviceCollection)
 {
+    serviceCollection.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
     serviceCollection.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
 }

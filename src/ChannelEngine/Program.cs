@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using ChannelEngine.Configuration;
+﻿using ChannelEngine.Configuration;
 using ChannelEngine.ExternalApi;
 using ChannelEngine.ExternalApi.ApiClient;
 using Microsoft.Extensions.Configuration;

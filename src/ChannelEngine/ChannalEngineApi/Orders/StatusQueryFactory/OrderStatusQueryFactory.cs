@@ -1,4 +1,5 @@
 ﻿using ChannelEngine.ChannalEngineApi.Orders.StatusConverter;
+using ChannelEngine.Exceptions;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory
@@ -16,17 +17,29 @@ namespace ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory
 
         public string CreateUrl(string url, IEnumerable<OrderStatus> statuses)
         {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new OrderUriIsMissingException();
+            }
+            ArgumentNullException.ThrowIfNull(statuses);
+
             var distinctStatuses = statuses.Distinct().ToList();
 
-            var queryParams = new Dictionary<string, string>();
+            var queryParams = new List<KeyValuePair<string, string>>();
 
             foreach (var status in distinctStatuses)
             {
                 var statusAsString = _statusConverter.Convert(status);
-                queryParams.Add(_statusesQueryName, statusAsString);
+                queryParams.Add(new KeyValuePair<string, string>(_statusesQueryName, statusAsString));
             }
 
-            var result = QueryHelpers.AddQueryString(url, queryParams);
+            string result = url;
+
+            foreach (var param in queryParams)
+            {
+                result = QueryHelpers.AddQueryString(result, param.Key, param.Value);
+            }
+
             return result;
         }
     }

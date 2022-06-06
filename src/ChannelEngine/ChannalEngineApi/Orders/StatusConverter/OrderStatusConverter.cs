@@ -1,4 +1,6 @@
-﻿namespace ChannelEngine.ChannalEngineApi.Orders.StatusConverter
+﻿using ChannelEngine.Exceptions;
+
+namespace ChannelEngine.ChannalEngineApi.Orders.StatusConverter
 {
     public class OrderStatusConverter : IOrderStatusConverter
     {
@@ -8,7 +10,8 @@
         {
             _orderStatuses = new Dictionary<OrderStatus, string>
             {
-                { OrderStatus.InProgress, "IN_PROGRESS" }
+                { OrderStatus.InProgress, "IN_PROGRESS" },
+                { OrderStatus.InBackorder, "IN_BACKORDER" },
             };
         }
         public string Convert(OrderStatus status)
@@ -16,7 +19,7 @@
             var result = _orderStatuses.GetValueOrDefault(status);
             if (string.IsNullOrEmpty(result))
             {
-                throw new ApplicationException("Change message");
+                throw new OrderStatusIsNotSupportedException(status);
             }
             return result;
         }

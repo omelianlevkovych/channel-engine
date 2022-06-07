@@ -6,6 +6,7 @@ using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.Configuration;
 using ChannelEngine.Application.Gateways;
+using ChannelEngine.Console.Mapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
@@ -27,14 +28,6 @@ await GetInProgressOrders(logic);
 await GetTopFiveProductsDesc(logic);
 Console.ReadLine();
 
-async Task GetTopFiveProductsDesc(IBusinessLogic logic)
-{
-    const int takeTopProductsCount = 5;
-    Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
-    var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
-    WriteToConsole(topProducts);
-}
-
 async Task GetInProgressOrders(IBusinessLogic logic)
 {
     var status = new List<OrderStatus>
@@ -42,8 +35,19 @@ async Task GetInProgressOrders(IBusinessLogic logic)
         OrderStatus.InProgress,
     };
 
+    Console.WriteLine("\t---Orders with 'in progress' status---\t");
+
     var ordersInProgress = await logic.GetOrders(status);
-    WriteToConsole(ordersInProgress);
+    WriteToConsole(ordersInProgress.ToDto());
+}
+
+async Task GetTopFiveProductsDesc(IBusinessLogic logic)
+{
+    const int takeTopProductsCount = 5;
+    Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
+
+    var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
+    WriteToConsole(topProducts);
 }
 
 void WriteToConsole<T>(T result)

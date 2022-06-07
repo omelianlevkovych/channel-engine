@@ -17,39 +17,42 @@ var configuration = new ConfigurationBuilder()
 
 var services = new ServiceCollection();
 services.AddSingleton<IConfiguration>(configuration);
+
 ConfigureServices(services);
 
 var serviceProvider = services.BuildServiceProvider();
-await ExecuteBusinessLogic();
+var logic = serviceProvider.GetRequiredService<IBusinessLogic>();
 
-async Task ExecuteBusinessLogic()
+await GetInProgressOrders(logic);
+await GetTopFiveProductsDesc(logic);
+Console.ReadLine();
+
+async Task GetTopFiveProductsDesc(IBusinessLogic logic)
 {
-    var logic = serviceProvider.GetRequiredService<IBusinessLogic>();
+    const int takeTopProductsCount = 5;
+    Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
+    var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
+    WriteToConsole(topProducts);
+}
 
-    var statuses = new List<OrderStatus>
+async Task GetInProgressOrders(IBusinessLogic logic)
+{
+    var status = new List<OrderStatus>
     {
         OrderStatus.InProgress,
     };
 
-    var ordersInProgress = await logic.GetOrders(statuses);
+    var ordersInProgress = await logic.GetOrders(status);
+    WriteToConsole(ordersInProgress);
+}
 
-    var responseText = JsonSerializer.Serialize(ordersInProgress, new JsonSerializerOptions
-    {
-        WriteIndented = true,
-    });
-
-    Console.WriteLine(responseText);
-
-    const int takeTopProductsCount = 5;
-    Console.WriteLine($"---Top {takeTopProductsCount} products descending---");
-    var topProducts = logic.GetTopProductsDesc(takeTopProductsCount);
-    responseText = JsonSerializer.Serialize(topProducts, new JsonSerializerOptions
+void WriteToConsole<T>(T result)
+{
+    var responseText = JsonSerializer.Serialize<T>(result, new JsonSerializerOptions
     {
         WriteIndented = true,
     });
     Console.WriteLine(responseText);
-
-    Console.ReadLine();
 }
 
 static void ConfigureServices(IServiceCollection serviceCollection)

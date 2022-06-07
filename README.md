@@ -23,6 +23,13 @@ dotnet test
 
 You will have to provide ```ApiKey``` throw environment variable or by changing appsettings.json value.
 
+# todo
+- add more tests; play with fluet validator
+- add mvc
+- add serilog
+- add polly for retries
+
+
 # notes
 - /orders endpoint does not have ```Name``` property for products. Therefore you have to call the /products endpoint to fetch it.
 It hits performance and creates some unnecessary complexity.

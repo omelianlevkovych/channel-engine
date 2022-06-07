@@ -58,7 +58,7 @@ static void ConfigureServices(IServiceCollection serviceCollection)
     serviceCollection.AddSingleton<IOrderStatusQueryFactory, OrderStatusQueryFactory>();
     serviceCollection.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
     serviceCollection.AddScoped<IBusinessLogic, BusinessLogic>();
-    serviceCollection.AddScoped<OrderGateway>();
+    serviceCollection.AddScoped<InMemoryStorage>();
 
     serviceCollection.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
 }

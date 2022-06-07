@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace ChannelEngine.Application.Gateways
 {
-    public class OrderGateway
+    public class InMemoryStorage
     {
         private ConcurrentBag<OrderResponse> _ordersInProgress = new();
         public IReadOnlyCollection<OrderResponse> OrdersInProgress => _ordersInProgress;

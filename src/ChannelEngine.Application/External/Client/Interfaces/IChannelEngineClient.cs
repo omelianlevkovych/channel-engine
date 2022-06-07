@@ -1,5 +1,6 @@
 ﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Responses;
+using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.External.Responses;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Client.Interfaces
@@ -8,6 +9,6 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client.Interfaces
     {
         Task<OrderItemsResponse> GetOrdersByStatus(IEnumerable<OrderStatus> status);
         Task<ProductResponse> GetProduct(string productId);
-        Task UpdateProductStock(string productId, int stock);
+        Task PatchProduct(string productId, ProductPatchRequest patch);
     }
 }

@@ -3,6 +3,7 @@ using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.ChannalEngineApi.Responses;
 using ChannelEngine.Application.Configuration;
+using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.External.Responses;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http.Headers;
@@ -11,7 +12,7 @@ using System.Text.Json;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Client
 {
-    public class ChannelEngineApiClient : IChannelEngineApiClient
+    public sealed class ChannelEngineApiClient : IChannelEngineApiClient
     {
         private readonly int version = 2;
         private readonly HttpClient _httpClient;
@@ -58,13 +59,13 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             return product;
         }
 
-        public async Task UpdateProductStock(string productId, int value)
+        public async Task PatchProduct(string productId, ProductPatchRequest patch)
         {
             var url = $"api/v{version}/products/{productId}";
 
-            // TODO: change the dto for patching
-            var patchDoc = new JsonPatchDocument<ProductResponse>();
-            patchDoc.Replace(x => x.Content.Stock, value);
+            var patchDoc = new JsonPatchDocument<ProductPatchRequest>();
+            patchDoc.Replace(x => x.Stock, patch.Stock);
+
             var serializedDoc = JsonSerializer.Serialize(patchDoc);
             var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
 

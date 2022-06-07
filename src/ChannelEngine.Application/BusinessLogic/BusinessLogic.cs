@@ -4,6 +4,7 @@ using ChannelEngine.Application.ChannalEngineApi.Responses;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Gateways;
+using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
 
 namespace ChannelEngine.Application.BusinessLogic
@@ -19,7 +20,7 @@ namespace ChannelEngine.Application.BusinessLogic
             _channelApi = channelApi;
         }
 
-        public async Task<IEnumerable<OrderResponse>> GetOrdersByStatus(IEnumerable<OrderStatus> status)
+        public async Task<IEnumerable<OrderModel>> GetOrders(IEnumerable<OrderStatus> status)
         {
             var response = await _channelApi.GetOrdersByStatus(status);
 
@@ -28,7 +29,7 @@ namespace ChannelEngine.Application.BusinessLogic
                 _storage.AddOrder(order);
             }
 
-            return _storage.OrdersInProgress;
+            return _storage.OrdersInProgress.ToModel();
         }
 
         public Task<ProductResponse> GetProduct(string productId)

@@ -14,6 +14,7 @@
             Id = id;
             GlobalTradeItemNumber = GTN;
             _totalQuantity = totalQuantity;
+            _name = string.Empty;
         }
 
         public void IncrementQuantity(int value)

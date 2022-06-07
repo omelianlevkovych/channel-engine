@@ -31,7 +31,7 @@ async Task ExecuteBusinessLogic()
         OrderStatus.InProgress,
     };
 
-    var ordersInProgress = await logic.GetOrdersByStatus(statuses);
+    var ordersInProgress = await logic.GetOrders(statuses);
 
     var responseText = JsonSerializer.Serialize(ordersInProgress, new JsonSerializerOptions
     {

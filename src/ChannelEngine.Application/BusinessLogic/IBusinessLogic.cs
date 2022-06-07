@@ -8,10 +8,9 @@ namespace ChannelEngine.Application.BusinessLogic
 {
     public interface IBusinessLogic
     {
-        Task<IEnumerable<OrderResponse>> GetOrdersByStatus(IEnumerable<OrderStatus> status);
-        //TODO: make it more flexible by using Func<T> for filtering.
-        Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count);
+        Task<IEnumerable<OrderModel>> GetOrders(IEnumerable<OrderStatus> status);
         Task<ProductResponse> GetProduct(string productId);
+        Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count);
         Task PatchProduct(string productId, ProductPatchRequest patch);
     }
 }

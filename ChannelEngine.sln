@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D66EE904
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngine.Tests", "tests\ChannelEngine.Tests\ChannelEngine.Tests.csproj", "{7A5867E8-991B-44E8-8441-491F67EFC8E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngine.Application", "src\ChannelEngine.Application\ChannelEngine.Application.csproj", "{6D1A26D5-0152-45CC-86B0-CEDC11D1685F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +30,14 @@ Global
 		{7A5867E8-991B-44E8-8441-491F67EFC8E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A5867E8-991B-44E8-8441-491F67EFC8E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A5867E8-991B-44E8-8441-491F67EFC8E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D1A26D5-0152-45CC-86B0-CEDC11D1685F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D1A26D5-0152-45CC-86B0-CEDC11D1685F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D1A26D5-0152-45CC-86B0-CEDC11D1685F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D1A26D5-0152-45CC-86B0-CEDC11D1685F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70A8BF7D-C94A-4071-8762-B017695E61A1} = {AAF6D02A-F985-4655-95F9-8623DB80DF6C}
 		{7A5867E8-991B-44E8-8441-491F67EFC8E4} = {D66EE904-D144-40EB-8844-9647410A785A}
+		{6D1A26D5-0152-45CC-86B0-CEDC11D1685F} = {AAF6D02A-F985-4655-95F9-8623DB80DF6C}
 	EndGlobalSection
 EndGlobal

@@ -24,7 +24,7 @@ namespace ChannelEngine.Application.BusinessLogic
         {
             var response = await _channelApi.GetOrdersByStatus(status);
 
-            foreach (var order in response.Orders ?? new List<OrderResponse>())
+            foreach (var order in response.Orders)
             {
                 _storage.AddOrder(order);
             }
@@ -32,10 +32,14 @@ namespace ChannelEngine.Application.BusinessLogic
             return _storage.OrdersInProgress.ToModel();
         }
 
-        public Task<ProductResponse> GetProduct(string productId)
+        public async Task<ProductViewModel> GetProduct(string productId)
         {
-            var product = _channelApi.GetProduct(productId);
-            return product;
+            var product = await _channelApi.GetProduct(productId);
+            if (product is null)
+            {
+                throw new Exception("custom product not found exception");
+            }
+            return product.ToViewModel();
         }
 
         public async Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count)

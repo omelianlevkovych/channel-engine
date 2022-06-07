@@ -1,4 +1,5 @@
 ﻿using ChannelEngine.Application.ChannalEngineApi.Responses;
+using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Models;
 
 namespace ChannelEngine.Application.Mapper
@@ -36,6 +37,18 @@ namespace ChannelEngine.Application.Mapper
         public static ProductModel ToModel(this OrderProductResponse product)
         {
             return new ProductModel(product.Id, product.GlobalTradeItemNumber, product.Quantity);
+        }
+
+        public static ProductViewModel ToViewModel(this ProductResponse response)
+        {
+            var product = response.Content;
+
+            return new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Stock = product.Stock,
+            };
         }
     }
 }

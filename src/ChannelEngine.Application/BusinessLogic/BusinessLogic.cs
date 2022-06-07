@@ -1,8 +1,6 @@
 ﻿using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
 using ChannelEngine.Application.ChannalEngineApi.Orders;
-using ChannelEngine.Application.ChannalEngineApi.Responses;
 using ChannelEngine.Application.External.Requests;
-using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Gateways;
 using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
@@ -26,10 +24,10 @@ namespace ChannelEngine.Application.BusinessLogic
 
             foreach (var order in response.Orders)
             {
-                _storage.AddOrder(order);
+                _storage.AddOrder(order.ToModel());
             }
 
-            return _storage.OrdersInProgress.ToModel();
+            return _storage.OrdersInProgress;
         }
 
         public async Task<ProductViewModel> GetProduct(string productId)
@@ -78,21 +76,21 @@ namespace ChannelEngine.Application.BusinessLogic
         /// </summary>
         /// <param name="orders">The collection of orders.</param>
         /// <returns>Returns collection of unique products.</returns>
-        private IEnumerable<ProductModel> MergeProductsInOrders(IEnumerable<OrderResponse> orders)
+        private IEnumerable<ProductModel> MergeProductsInOrders(IEnumerable<OrderModel> orders)
         {
             var products = new Dictionary<string, ProductModel>();
-            
-            foreach(var order in orders)
+
+            foreach (var order in orders)
             {
-                foreach(var product in order.Products ?? new List<OrderProductResponse>())
+                foreach (var product in order.Products)
                 {
                     if (products.TryGetValue(product.Id, out var value))
                     {
-                        value.IncrementQuantity(product.Quantity);
+                        value.IncrementQuantity(product.TotalQuantity);
                     }
                     else
                     {
-                        products.Add(product.Id, new ProductModel(product.Id, product.GlobalTradeItemNumber, product.Quantity));
+                        products.Add(product.Id, new ProductModel(product.Id, product.GlobalTradeItemNumber, product.TotalQuantity));
                     }
                 }
             }

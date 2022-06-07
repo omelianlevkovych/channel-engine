@@ -12,5 +12,14 @@ namespace ChannelEngine.Application.Gateways
         {
             _orders.Add(order);
         }
+
+        public void AddOrders(IEnumerable<OrderResponse> orders)
+        {
+            ArgumentNullException.ThrowIfNull(orders);
+            foreach (var order in orders)
+            {
+                AddOrder(order);
+            }
+        }
     }
 }

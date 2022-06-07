@@ -7,7 +7,7 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
         public string Status { get; init; } = string.Empty;
 
         [JsonPropertyName("Lines")]
-        public IReadOnlyList<ProductResponse>? Products { get; init; }
+        public IReadOnlyList<OrderProductResponse>? Products { get; init; }
 
     }
 }

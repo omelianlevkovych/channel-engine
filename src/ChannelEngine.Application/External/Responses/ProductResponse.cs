@@ -1,13 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Responses
+namespace ChannelEngine.Application.External.Responses
 {
     public record ProductResponse
     {
-        public string Status { get; init; } = string.Empty;
-
         [JsonPropertyName("MerchantProductNo")]
-        public string MerchantProductNubmer { get; init; } = string.Empty;
-        public int Quantity { get; init; }
+        public string Id { get; init; } = string.Empty;
+        public string Name { get; init; } = string.Empty;
+        public int Stock { get; init; }
     }
 }

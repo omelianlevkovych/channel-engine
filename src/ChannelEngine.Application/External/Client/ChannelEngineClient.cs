@@ -3,7 +3,10 @@ using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.ChannalEngineApi.Responses;
 using ChannelEngine.Application.Configuration;
+using ChannelEngine.Application.External.Responses;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Client
@@ -39,6 +42,34 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             ArgumentNullException.ThrowIfNull(orders);
 
             return orders;
+        }
+
+        public async Task<ProductResponse> GetProduct(string productId)
+        {
+            var url = $"api/v{version}/products/{productId}";
+
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStreamAsync();
+            var product = JsonSerializer.Deserialize<ProductResponse>(jsonResponse);
+            ArgumentNullException.ThrowIfNull(product);
+
+            return product;
+        }
+
+        public async Task UpdateProductStock(string productId, int value)
+        {
+            var url = $"api/v{version}/products/{productId}";
+
+            // TODO: change the dto for patching
+            var patchDoc = new JsonPatchDocument<ProductResponse>();
+            patchDoc.Replace(x => x.Stock, value);
+            var serializedDoc = JsonSerializer.Serialize(patchDoc);
+            var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
+
+            var response = await _httpClient.PatchAsync(url, requestContent);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

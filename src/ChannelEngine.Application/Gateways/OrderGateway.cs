@@ -5,12 +5,12 @@ namespace ChannelEngine.Application.Gateways
 {
     public class OrderGateway
     {
-        private ConcurrentBag<OrderResponse> _orders = new();
-        public IReadOnlyCollection<OrderResponse> Orders => _orders;
+        private ConcurrentBag<OrderResponse> _ordersInProgress = new();
+        public IReadOnlyCollection<OrderResponse> OrdersInProgress => _ordersInProgress;
 
         public void AddOrder(OrderResponse order)
         {
-            _orders.Add(order);
+            _ordersInProgress.Add(order);
         }
 
         public void AddOrders(IEnumerable<OrderResponse> orders)

@@ -3,6 +3,7 @@ using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Responses;
 using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Gateways;
+using ChannelEngine.Application.Models;
 
 namespace ChannelEngine.Application.BusinessLogic
 {
@@ -26,7 +27,7 @@ namespace ChannelEngine.Application.BusinessLogic
                 _gateway.AddOrder(order);
             }
 
-            return _gateway.Orders;
+            return _gateway.OrdersInProgress;
         }
 
         public Task<ProductResponse> GetProduct(string productId)
@@ -35,22 +36,62 @@ namespace ChannelEngine.Application.BusinessLogic
             return product;
         }
 
-        public IEnumerable<OrderProductResponse> GetTopProductsDesc(int count)
+        public async Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count)
         {
-            var orders = _gateway.Orders;
-            var products = new List<OrderProductResponse>();
+            var orders = _gateway.OrdersInProgress;
 
-            foreach (var order in orders)
-            {
-                products.AddRange(order.Products ?? new List<OrderProductResponse>());
-            }
+            var products = await GetProducts();
 
-            return products.OrderByDescending(x => x.Quantity).Take(count);
+            return products.OrderByDescending(x => x.TotalQuantity).Take(count);
         }
 
         public Task UpdateProductStock(string productId, int value)
         {
             return _channelApi.UpdateProductStock(productId, value);
+        }
+
+        private async Task<IEnumerable<ProductModel>> GetProducts()
+        {
+            var orders = _gateway.OrdersInProgress;
+            var products = MergeProductsInOrders(orders);
+
+            // We have to setup names as well here, the /orders endpoints unfortunatelly does not contain such data.
+            foreach (var product in products)
+            {
+                var response = await _channelApi.GetProduct(product.Id);
+                product.SetName(response.Content.Name);
+            }
+
+            return products;
+        }
+
+        /// <summary>
+        /// This method goes threw every order and merge it products into unique collection.
+        /// Merge is based on product Id (MerchantProductNo); in case we have two same products we are incrementing
+        /// it total quantity.
+        /// </summary>
+        /// <param name="orders">The collection of orders.</param>
+        /// <returns>Returns collection of unique products.</returns>
+        private IEnumerable<ProductModel> MergeProductsInOrders(IEnumerable<OrderResponse> orders)
+        {
+            var products = new Dictionary<string, ProductModel>();
+            
+            foreach(var order in orders)
+            {
+                foreach(var product in order.Products ?? new List<OrderProductResponse>())
+                {
+                    if (products.TryGetValue(product.Id, out var value))
+                    {
+                        value.IncrementQuantity(product.Quantity);
+                    }
+                    else
+                    {
+                        products.Add(product.Id, new ProductModel(product.Id, product.GlobalTradeItemNumber, product.Quantity));
+                    }
+                }
+            }
+
+            return products.Values;
         }
     }
 }

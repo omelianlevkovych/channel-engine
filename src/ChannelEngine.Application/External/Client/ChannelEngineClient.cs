@@ -64,7 +64,7 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
 
             // TODO: change the dto for patching
             var patchDoc = new JsonPatchDocument<ProductResponse>();
-            patchDoc.Replace(x => x.Stock, value);
+            patchDoc.Replace(x => x.Content.Stock, value);
             var serializedDoc = JsonSerializer.Serialize(patchDoc);
             var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
 

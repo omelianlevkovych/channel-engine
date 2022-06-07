@@ -1,4 +1,4 @@
-﻿namespace ChannelEngine.ChannalEngineApi.Orders
+﻿namespace ChannelEngine.Application.ChannalEngineApi.Orders
 {
     public enum OrderStatus
     {

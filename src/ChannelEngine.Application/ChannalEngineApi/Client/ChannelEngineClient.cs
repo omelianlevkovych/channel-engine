@@ -1,14 +1,14 @@
-﻿using ChannelEngine.ChannalEngineApi.Client.Interfaces;
-using ChannelEngine.ChannalEngineApi.Orders;
-using ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory;
-using ChannelEngine.Configuration;
-using ChannelEngine.ExternalApi.Responses;
+﻿using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
+using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
+using ChannelEngine.Application.ChannalEngineApi.Responses;
+using ChannelEngine.Application.Configuration;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace ChannelEngine.ExternalApi.ApiClient
+namespace ChannelEngine.Application.ChannalEngineApi.Client
 {
-    internal class ChannelEngineApiClient : IChannelEngineApiClient
+    public class ChannelEngineApiClient : IChannelEngineApiClient
     {
         private readonly int version = 2;
         private readonly HttpClient _httpClient;

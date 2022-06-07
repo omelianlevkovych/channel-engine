@@ -1,5 +1,5 @@
-﻿using ChannelEngine.ChannalEngineApi.Orders;
-using ChannelEngine.ChannalEngineApi.Orders.StatusConverter;
+﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
 using System.Collections.Generic;
 using Xunit;
 

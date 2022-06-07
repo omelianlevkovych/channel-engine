@@ -1,4 +1,4 @@
-﻿namespace ChannelEngine.Exceptions
+﻿namespace ChannelEngine.Application.Exceptions
 {
     public abstract class ChannelEngineException : Exception
     {

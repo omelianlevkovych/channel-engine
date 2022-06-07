@@ -1,8 +1,7 @@
-﻿using ChannelEngine.ChannalEngineApi.Orders;
-using ChannelEngine.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory;
+﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using Moq;
-using System;
 using System.Collections.Generic;
 using Xunit;
 

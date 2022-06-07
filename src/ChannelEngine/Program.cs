@@ -1,9 +1,9 @@
-﻿using ChannelEngine.ChannalEngineApi.Client.Interfaces;
-using ChannelEngine.ChannalEngineApi.Orders;
-using ChannelEngine.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.ChannalEngineApi.Orders.StatusQueryFactory;
-using ChannelEngine.Configuration;
-using ChannelEngine.ExternalApi.ApiClient;
+﻿using ChannelEngine.Application.ChannalEngineApi.Client;
+using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
+using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
+using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
+using ChannelEngine.Application.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;

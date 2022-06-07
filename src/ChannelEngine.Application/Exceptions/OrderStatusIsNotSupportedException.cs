@@ -1,6 +1,6 @@
-﻿using ChannelEngine.ChannalEngineApi.Orders;
+﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
 
-namespace ChannelEngine.Exceptions
+namespace ChannelEngine.Application.Exceptions
 {
     public class OrderStatusIsNotSupportedException : ChannelEngineException
     {

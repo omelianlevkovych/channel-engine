@@ -1,4 +1,4 @@
-﻿namespace ChannelEngine.Configuration
+﻿namespace ChannelEngine.Application.Configuration
 {
     public interface IChannelEngineApiConfiguration
     {

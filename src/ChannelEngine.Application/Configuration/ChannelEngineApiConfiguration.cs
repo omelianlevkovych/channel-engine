@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace ChannelEngine.Configuration
+namespace ChannelEngine.Application.Configuration
 {
     public class ChannelEngineApiConfiguration : IChannelEngineApiConfiguration
     {
@@ -8,7 +8,7 @@ namespace ChannelEngine.Configuration
         private readonly IConfiguration _config;
         public ChannelEngineApiConfiguration(IConfiguration config)
         {
-            this._config = config;
+            _config = config;
         }
 
         public string BaseAddress => _config.GetValue($"{SECTION}:BaseAddress", string.Empty);

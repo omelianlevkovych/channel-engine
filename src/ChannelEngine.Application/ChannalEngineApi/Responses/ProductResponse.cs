@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ChannelEngine.ExternalApi.Responses
+namespace ChannelEngine.Application.ChannalEngineApi.Responses
 {
     public record ProductResponse
     {

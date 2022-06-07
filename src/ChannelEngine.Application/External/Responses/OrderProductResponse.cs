@@ -9,6 +9,6 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
         public int Quantity { get; init; }
 
         [JsonPropertyName("Gtin")]
-        public string GlobalTradeItemNumber { get; init;} = string.Empty;
+        public string GlobalTradeItemNumber { get; init; } = string.Empty;
      }
 }

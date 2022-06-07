@@ -5,6 +5,7 @@ using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.Configuration;
+using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Gateways;
 using ChannelEngine.Console.Mapper;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,7 @@ var serviceProvider = services.BuildServiceProvider();
 var logic = serviceProvider.GetRequiredService<IBusinessLogic>();
 
 await GetInProgressOrders(logic);
-await GetTopFiveProductsDesc(logic);
+await GetTopProductsAndPatch(logic);
 Console.ReadLine();
 
 async Task GetInProgressOrders(IBusinessLogic logic)
@@ -41,13 +42,30 @@ async Task GetInProgressOrders(IBusinessLogic logic)
     WriteToConsole(ordersInProgress.ToDto());
 }
 
-async Task GetTopFiveProductsDesc(IBusinessLogic logic)
+async Task GetTopProductsAndPatch(IBusinessLogic logic)
 {
     const int takeTopProductsCount = 5;
     Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
 
     var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
     WriteToConsole(topProducts);
+
+    await PatchProduct(logic, topProducts.FirstOrDefault().Id);
+}
+
+async Task PatchProduct(IBusinessLogic logic, string productId)
+{
+    Console.WriteLine($"\t---Patch product and return it state after update---\t");
+    await logic.PatchProduct(productId, new ProductPatchRequest
+    {
+        Stock = 25,
+    });
+    Console.WriteLine($"Product '{productId}' has been patched succesfully!");
+
+    var updatedProduct = await logic.GetProduct(productId);
+
+    Console.WriteLine("Updated product:\n");
+    WriteToConsole(updatedProduct);
 }
 
 void WriteToConsole<T>(T result)

@@ -66,7 +66,7 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             var patchDoc = new JsonPatchDocument<ProductPatchRequest>();
             patchDoc.Replace(x => x.Stock, patch.Stock);
 
-            var serializedDoc = JsonSerializer.Serialize(patchDoc);
+            var serializedDoc = Newtonsoft.Json.JsonConvert.SerializeObject(patchDoc);
             var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
 
             var response = await _httpClient.PatchAsync(url, requestContent);

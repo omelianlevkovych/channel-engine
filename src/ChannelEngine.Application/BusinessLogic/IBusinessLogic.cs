@@ -1,7 +1,11 @@
-﻿namespace ChannelEngine.Application.BusinessLogic
+﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.ChannalEngineApi.Responses;
+
+namespace ChannelEngine.Application.BusinessLogic
 {
     public interface IBusinessLogic
     {
-        Task<int> GetOrdersByStatus(string status);
+        Task<IEnumerable<OrderResponse>> GetOrdersByStatus(IEnumerable<OrderStatus> status);
+        IEnumerable<ProductResponse> GetTopProductsDesc(int count);
     }
 }

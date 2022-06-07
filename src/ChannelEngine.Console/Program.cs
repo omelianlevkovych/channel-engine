@@ -1,9 +1,11 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Client;
+﻿using ChannelEngine.Application.BusinessLogic;
+using ChannelEngine.Application.ChannalEngineApi.Client;
 using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
 using ChannelEngine.Application.ChannalEngineApi.Orders;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
 using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.Configuration;
+using ChannelEngine.Application.Gateways;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
@@ -18,27 +20,33 @@ services.AddSingleton<IConfiguration>(configuration);
 ConfigureServices(services);
 
 var serviceProvider = services.BuildServiceProvider();
+await ExecuteBusinessLogic();
 
-// Calling the third party
-var client = serviceProvider.GetRequiredService<IChannelEngineApiClient>();
-await ProcessWork(client);
-
-
-async Task ProcessWork(IChannelEngineApiClient client)
+async Task ExecuteBusinessLogic()
 {
+    var logic = serviceProvider.GetRequiredService<IBusinessLogic>();
 
     var statuses = new List<OrderStatus>
     {
         OrderStatus.InProgress,
     };
 
-    var response = await client.GetOrdersByStatus(statuses);
+    var ordersInProgress = await logic.GetOrdersByStatus(statuses);
 
-    var responseText = JsonSerializer.Serialize(response, new JsonSerializerOptions
+    var responseText = JsonSerializer.Serialize(ordersInProgress, new JsonSerializerOptions
     {
         WriteIndented = true,
     });
 
+    Console.WriteLine(responseText);
+
+    const int takeTopProductsCount = 5;
+    Console.WriteLine($"---Top {takeTopProductsCount} products descending---");
+    var topProducts = logic.GetTopProductsDesc(takeTopProductsCount);
+    responseText = JsonSerializer.Serialize(topProducts, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+    });
     Console.WriteLine(responseText);
 
     Console.ReadLine();
@@ -49,5 +57,8 @@ static void ConfigureServices(IServiceCollection serviceCollection)
     serviceCollection.AddSingleton<IOrderStatusConverter, OrderStatusConverter>();
     serviceCollection.AddSingleton<IOrderStatusQueryFactory, OrderStatusQueryFactory>();
     serviceCollection.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
+    serviceCollection.AddScoped<IBusinessLogic, BusinessLogic>();
+    serviceCollection.AddScoped<OrderGateway>();
+
     serviceCollection.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
 }

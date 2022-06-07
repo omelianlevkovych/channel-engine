@@ -8,5 +8,6 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
 
         [JsonPropertyName("MerchantProductNo")]
         public string MerchantProductNubmer { get; init; } = string.Empty;
+        public int Quantity { get; init; }
     }
 }

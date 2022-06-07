@@ -5,7 +5,7 @@ using Moq;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ChannelEngine.Tests.StatusQueryFactoryTests
+namespace ChannelEngine.Application.Tests.StatusQueryFactoryTests
 {
     public class OrderStatusQueryFactoryTests
     {

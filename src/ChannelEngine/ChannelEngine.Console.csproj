@@ -30,8 +30,4 @@
     <ProjectReference Include="..\ChannelEngine.Application\ChannelEngine.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ChannalEngineApi\" />
-  </ItemGroup>
-
 </Project>

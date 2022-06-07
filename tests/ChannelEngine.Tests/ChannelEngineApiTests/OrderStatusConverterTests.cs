@@ -3,7 +3,7 @@ using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ChannelEngine.Tests.ChannelEngineApiTests
+namespace ChannelEngine.Application.Tests.ChannelEngineApiTests
 {
     public class OrderStatusConverterTests
     {

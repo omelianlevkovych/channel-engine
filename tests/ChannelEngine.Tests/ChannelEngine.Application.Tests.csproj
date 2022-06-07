@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ChannelEngine\ChannelEngine.csproj" />
+    <ProjectReference Include="..\..\src\ChannelEngine.Application\ChannelEngine.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,17 +23,17 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             IOrderStatusQueryFactory orderStatusQueryFactory)
         {
             _httpClient = httpClient;
+            _orderStatusQueryFactory = orderStatusQueryFactory;
 
             _httpClient.BaseAddress = new Uri(config.BaseAddress);
             _httpClient.DefaultRequestHeaders.Add(config.ApiKeyHeader, config.ApiKey);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _orderStatusQueryFactory = orderStatusQueryFactory;
         }
-        public async Task<OrderItemsResponse> GetOrdersByStatus(IEnumerable<OrderStatus> statuses)
+        public async Task<OrderItemsResponse> GetOrders(IEnumerable<OrderStatus> filter)
         {
             var url = $"api/v{version}/orders";
 
-            var urlWithQueryParams = _orderStatusQueryFactory.CreateUrl(url, statuses);
+            var urlWithQueryParams = _orderStatusQueryFactory.CreateUrl(url, filter);
 
             var response = await _httpClient.GetAsync(urlWithQueryParams);
             response.EnsureSuccessStatusCode();

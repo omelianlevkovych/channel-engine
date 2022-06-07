@@ -7,8 +7,8 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client.Interfaces
 {
     public interface IChannelEngineApiClient
     {
-        Task<OrderItemsResponse> GetOrdersByStatus(IEnumerable<OrderStatus> status);
-        Task<ProductResponse> GetProduct(string productId);
-        Task PatchProduct(string productId, ProductPatchRequest patch);
+        Task<OrderItemsResponse> GetOrders(IEnumerable<OrderStatus> filter);
+        Task<ProductResponse> GetProduct(string id);
+        Task PatchProduct(string id, ProductPatchRequest patch);
     }
 }

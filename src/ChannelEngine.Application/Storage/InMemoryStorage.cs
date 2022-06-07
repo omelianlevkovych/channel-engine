@@ -4,7 +4,8 @@ using System.Collections.Concurrent;
 namespace ChannelEngine.Application.Gateways
 {
     /// <summary>
-    /// This class emulates our orders in progress storage.
+    /// This class emulates our 'orders in progress' in memory storage.
+    /// Our second and third business task requires to work around already retrieved orders.
     /// This is a time tradeoff decision, other option can be some persistence storage (db).
     /// </summary>
     public class InMemoryStorage

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32317.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AAF6D02A-F985-4655-95F9-8623DB80DF6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngine.Console", "src\ChannelEngine\ChannelEngine.Console.csproj", "{70A8BF7D-C94A-4071-8762-B017695E61A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngine.Console", "src\ChannelEngine.Console\ChannelEngine.Console.csproj", "{70A8BF7D-C94A-4071-8762-B017695E61A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D66EE904-D144-40EB-8844-9647410A785A}"
 EndProject

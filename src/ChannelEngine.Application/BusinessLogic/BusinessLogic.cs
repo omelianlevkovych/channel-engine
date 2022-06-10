@@ -1,4 +1,5 @@
-﻿using ChannelEngine.Application.External.Client.Interfaces;
+﻿using ChannelEngine.Application.Exceptions;
+using ChannelEngine.Application.External.Client.Interfaces;
 using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Mapper;
@@ -24,7 +25,7 @@ namespace ChannelEngine.Application.BusinessLogic
 
             if (response.Orders is null)
             {
-                throw new Exception("");
+                throw new OrdersAreMissingException();
             }
 
             foreach (var order in response.Orders)
@@ -40,7 +41,7 @@ namespace ChannelEngine.Application.BusinessLogic
             var product = await _channelApi.GetProduct(id);
             if (product is null)
             {
-                throw new Exception("custom product not found exception");
+                throw new ProductIsNotFoundException(id);
             }
             return product.ToViewModel();
         }

@@ -36,6 +36,7 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
 
             var request = new HttpRequestMessage(HttpMethod.Get, urlWithQueryParams);
             var response = await _httpClient.SendAsync(request);
+
             response.EnsureSuccessStatusCode();
 
             var responseJson = await response.Content.ReadAsStringAsync();

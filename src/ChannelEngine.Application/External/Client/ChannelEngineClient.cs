@@ -6,9 +6,9 @@ using ChannelEngine.Application.Configuration;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.External.Responses;
 using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Client
 {
@@ -32,14 +32,14 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
         public async Task<OrderItemsResponse> GetOrders(IEnumerable<OrderStatus> filter)
         {
             var url = $"api/v{version}/orders";
-
             var urlWithQueryParams = _orderStatusQueryFactory.CreateUrl(url, filter);
 
-            var response = await _httpClient.GetAsync(urlWithQueryParams);
+            var request = new HttpRequestMessage(HttpMethod.Get, urlWithQueryParams);
+            var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            var jsonResponse = await response.Content.ReadAsStreamAsync();
-            var orders = JsonSerializer.Deserialize<OrderItemsResponse>(jsonResponse);
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var orders = JsonConvert.DeserializeObject<OrderItemsResponse>(responseJson);
             ArgumentNullException.ThrowIfNull(orders);
 
             return orders;
@@ -52,24 +52,43 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var jsonResponse = await response.Content.ReadAsStreamAsync();
-            var product = JsonSerializer.Deserialize<ProductResponse>(jsonResponse);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductResponse>(jsonResponse);
             ArgumentNullException.ThrowIfNull(product);
 
             return product;
         }
 
-        public async Task PatchProduct(string productId, ProductPatchRequest patch)
+        // TODO : fix patch
+        public async Task PatchProductLegacy(string productId, ProductPatchRequest patch)
         {
             var url = $"api/v{version}/products/{productId}";
 
             var patchDoc = new JsonPatchDocument<ProductPatchRequest>();
             patchDoc.Replace(x => x.Stock, patch.Stock);
 
-            var serializedDoc = Newtonsoft.Json.JsonConvert.SerializeObject(patchDoc);
+            var serializedDoc = JsonConvert.SerializeObject(patchDoc);
             var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
 
             var response = await _httpClient.PatchAsync(url, requestContent);
+            var responseJson = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task PatchProduct(string productId, ProductPatchRequest patch)
+        {
+            var url = $"api/v{version}/products/{productId}";
+
+            var jsonRequestBody = new
+            {
+                Op = "replace",
+                Value = patch.Stock,
+                Path = nameof(patch.Stock),
+            };
+
+            var requestBody = JsonConvert.SerializeObject(jsonRequestBody);
+            var request = new HttpRequestMessage(HttpMethod.Get, requestBody);
+            var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
     }

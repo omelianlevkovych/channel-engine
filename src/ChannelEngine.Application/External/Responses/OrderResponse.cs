@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Responses
 {
@@ -7,7 +7,7 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
         public int Id { get; init; }
         public string Status { get; init; } = string.Empty;
 
-        [JsonPropertyName("Lines")]
+        [JsonProperty("Lines")]
         public IReadOnlyList<OrderProductResponse> Products { get; init; }
     }
 }

@@ -58,8 +58,9 @@ async Task PatchProduct(IBusinessLogic logic, string productId)
     Console.WriteLine($"\t---Patch product and return it state after update---\t");
     await logic.PatchProduct(productId, new ProductPatchRequest
     {
-        Stock = 25,
+        Stock = 11,
     });
+
     Console.WriteLine($"Product '{productId}' has been patched succesfully!");
 
     var updatedProduct = await logic.GetProduct(productId);

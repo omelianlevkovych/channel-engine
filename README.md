@@ -26,6 +26,7 @@ You will have to provide ```ApiKey``` throw environment variable or by changing 
 # todo
 - add more tests; play with fluet validator
 - add mvc
+- add error hadling
 - add serilog
 - add polly for retries
 

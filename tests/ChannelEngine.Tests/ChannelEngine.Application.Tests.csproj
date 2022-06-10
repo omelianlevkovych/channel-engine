@@ -27,8 +27,4 @@
     <ProjectReference Include="..\..\src\ChannelEngine.Application\ChannelEngine.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BusinessLogic.Tests\" />
-  </ItemGroup>
-
 </Project>

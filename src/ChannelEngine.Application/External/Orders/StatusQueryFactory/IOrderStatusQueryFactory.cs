@@ -1,4 +1,6 @@
-﻿namespace ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory
+﻿using ChannelEngine.Application.External.Orders;
+
+namespace ChannelEngine.Application.External.Orders.StatusQueryFactory
 {
     public interface IOrderStatusQueryFactory
     {

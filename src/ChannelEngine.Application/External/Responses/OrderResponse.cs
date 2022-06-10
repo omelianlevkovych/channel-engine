@@ -1,13 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Responses
+namespace ChannelEngine.Application.External.Responses
 {
     public record OrderResponse
     {
         public int Id { get; init; }
         public string Status { get; init; } = string.Empty;
 
-        [JsonPropertyName("Lines")]
-        public IReadOnlyList<OrderProductResponse> Products { get; init; }
+        [JsonProperty("Lines")]
+        public IReadOnlyList<OrderProductResponse>? Products { get; init; }
     }
 }

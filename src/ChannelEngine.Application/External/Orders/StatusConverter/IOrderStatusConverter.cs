@@ -1,4 +1,6 @@
-﻿namespace ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter
+﻿using ChannelEngine.Application.External.Orders;
+
+namespace ChannelEngine.Application.External.Orders.StatusConverter
 {
     public interface IOrderStatusConverter
     {

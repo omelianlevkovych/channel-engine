@@ -1,4 +1,4 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
+﻿using ChannelEngine.Application.External.Orders;
 
 namespace ChannelEngine.Application.Exceptions
 {

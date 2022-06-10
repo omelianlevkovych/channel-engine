@@ -1,6 +1,6 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
+﻿using ChannelEngine.Application.External.Orders;
+using ChannelEngine.Application.External.Orders.StatusConverter;
+using ChannelEngine.Application.External.Orders.StatusQueryFactory;
 using Moq;
 using System.Collections.Generic;
 using Xunit;

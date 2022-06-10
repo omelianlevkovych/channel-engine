@@ -1,5 +1,4 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Responses;
-using ChannelEngine.Application.External.Responses;
+﻿using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Models;
 
 namespace ChannelEngine.Application.Mapper

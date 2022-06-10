@@ -15,6 +15,7 @@ namespace ChannelEngine.Application.Gateways
 
         public void AddOrder(OrderModel order)
         {
+            ArgumentNullException.ThrowIfNull(order);
             _ordersInProgress.Add(order);
         }
 

@@ -50,7 +50,13 @@ async Task GetTopProductsAndPatch(IBusinessLogic logic)
     var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
     WriteToConsole(topProducts);
 
-    await PatchProduct(logic, topProducts.FirstOrDefault().Id);
+    var productToPatch = topProducts.FirstOrDefault();
+    if (productToPatch is null)
+    {
+        throw new Exception("Product to patch is null");
+    }
+
+    await PatchProduct(logic, productToPatch.Id);
 }
 
 async Task PatchProduct(IBusinessLogic logic, string productId)
@@ -58,7 +64,7 @@ async Task PatchProduct(IBusinessLogic logic, string productId)
     Console.WriteLine($"\t---Patch product and return it state after update---\t");
     await logic.PatchProduct(productId, new ProductPatchRequest
     {
-        Stock = 111,
+        Stock = 1256,
     });
 
     Console.WriteLine($"Product '{productId}' has been patched succesfully!");

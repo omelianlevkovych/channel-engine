@@ -55,9 +55,9 @@ async Task GetInProgressOrders()
 async Task GetTopProductsAndPatch()
 {
     const int takeTopProductsCount = 5;
-    Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
-
     var topProducts = await businessLogic.GetTopProductsDesc(takeTopProductsCount);
+
+    Console.WriteLine($"\t---Top {topProducts.Count()} products in descending order sorted by total quantity---\t");
 
     var message = IOPrettifier.GetPrettyConsoleMesssage(topProducts);
     Console.WriteLine(message);

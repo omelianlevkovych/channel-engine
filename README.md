@@ -30,7 +30,7 @@ cd [project-root-dir]
 dotnet test
 ```
 
-You will have to provide ```ApiKey``` by changing the environment variable or by changing the appsettings.json value.
+You will **have to provide** ```ApiKey``` by changing the environment variable or by changing the appsettings.json value.
 
 # todo
 - add mvc

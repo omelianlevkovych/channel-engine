@@ -2,7 +2,7 @@
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Models;
 
-namespace ChannelEngine.Application.BusinessLogic
+namespace ChannelEngine.Application.BusinessLogics
 {
     public interface IBusinessLogic
     {

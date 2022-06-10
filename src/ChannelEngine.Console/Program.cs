@@ -1,9 +1,11 @@
-﻿using ChannelEngine.Application.BusinessLogic;
+﻿using ChannelEngine.Application;
+using ChannelEngine.Application.BusinessLogics;
 using ChannelEngine.Application.Exceptions;
+using ChannelEngine.Application.External.Client;
+using ChannelEngine.Application.External.Client.Interfaces;
 using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Console;
-using ChannelEngine.Console.DI;
 using ChannelEngine.Console.Exceptions;
 using ChannelEngine.Console.Mapper;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +19,9 @@ var configuration = new ConfigurationBuilder()
 var services = new ServiceCollection();
 services.AddSingleton<IConfiguration>(configuration);
 
-services.AddDependencyInjection();
+services.AddApplication();
+services.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
+
 
 var serviceProvider = services.BuildServiceProvider();
 var businessLogic = serviceProvider.GetRequiredService<IBusinessLogic>();
@@ -32,7 +36,7 @@ catch (HttpRequestException exe)
     // TODO: log message
     Console.WriteLine("Oops, something went wrong. Please, try a bit later!");
 }
-catch(ChannelEngineException exe)
+catch (ChannelEngineException exe)
 {
     // TODO: log message
     Console.Write(exe);

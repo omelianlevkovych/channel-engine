@@ -4,16 +4,16 @@ using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
-using ChannelEngine.Application.Storage;
+using ChannelEngine.Application.Storage.Interfaces;
 
-namespace ChannelEngine.Application.BusinessLogic
+namespace ChannelEngine.Application.BusinessLogics
 {
     public class BusinessLogic : IBusinessLogic
     {
-        private readonly InMemoryStorage _storage;
+        private readonly IInMemoryStorage _storage;
         private readonly IChannelEngineApiClient _channelApi;
 
-        public BusinessLogic(InMemoryStorage storage, IChannelEngineApiClient channelApi)
+        public BusinessLogic(IInMemoryStorage storage, IChannelEngineApiClient channelApi)
         {
             _storage = storage;
             _channelApi = channelApi;

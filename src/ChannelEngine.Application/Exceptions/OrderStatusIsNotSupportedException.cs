@@ -7,6 +7,6 @@ namespace ChannelEngine.Application.Exceptions
         public OrderStatus OrderStatus { get; }
 
         public OrderStatusIsNotSupportedException(OrderStatus orderStatus)
-            : base($"Order status {orderStatus} is not supported.") => OrderStatus = orderStatus;
+            : base($"Order status '{orderStatus}' is not supported.") => OrderStatus = orderStatus;
     }
 }

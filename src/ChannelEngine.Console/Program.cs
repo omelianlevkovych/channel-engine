@@ -1,8 +1,10 @@
 ﻿using ChannelEngine.Application.BusinessLogic;
+using ChannelEngine.Application.Exceptions;
 using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Console;
 using ChannelEngine.Console.DI;
+using ChannelEngine.Console.Exceptions;
 using ChannelEngine.Console.Mapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +22,21 @@ services.AddDependencyInjection();
 var serviceProvider = services.BuildServiceProvider();
 var businessLogic = serviceProvider.GetRequiredService<IBusinessLogic>();
 
-await GetInProgressOrders();
-await GetTopProductsAndPatch();
+try
+{
+    await GetInProgressOrders();
+    await GetTopProductsAndPatch();
+}
+catch (HttpRequestException exe)
+{
+    // TODO: log message
+    Console.WriteLine("Oops, something went wrong. Please, try a bit later!");
+}
+catch(ChannelEngineException exe)
+{
+    // TODO: log message
+    Console.Write(exe);
+}
 
 async Task GetInProgressOrders()
 {
@@ -40,9 +55,9 @@ async Task GetInProgressOrders()
 async Task GetTopProductsAndPatch()
 {
     const int takeTopProductsCount = 5;
-    Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
-
     var topProducts = await businessLogic.GetTopProductsDesc(takeTopProductsCount);
+
+    Console.WriteLine($"\t---Top {topProducts.Count()} products in descending order sorted by total quantity---\t");
 
     var message = IOPrettifier.GetPrettyConsoleMesssage(topProducts);
     Console.WriteLine(message);
@@ -50,7 +65,7 @@ async Task GetTopProductsAndPatch()
     var productToPatch = topProducts.FirstOrDefault();
     if (productToPatch is null)
     {
-        throw new Exception("Product to patch is null");
+        throw new ProductToPatchIsMissing();
     }
 
     await PatchProduct(productToPatch.Id);

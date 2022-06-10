@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Responses
+namespace ChannelEngine.Application.External.Responses
 {
     public record OrderResponse
     {
@@ -8,6 +8,6 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
         public string Status { get; init; } = string.Empty;
 
         [JsonProperty("Lines")]
-        public IReadOnlyList<OrderProductResponse> Products { get; init; }
+        public IReadOnlyList<OrderProductResponse>? Products { get; init; }
     }
 }

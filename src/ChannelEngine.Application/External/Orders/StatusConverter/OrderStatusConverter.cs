@@ -1,6 +1,7 @@
 ﻿using ChannelEngine.Application.Exceptions;
+using ChannelEngine.Application.External.Orders;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter
+namespace ChannelEngine.Application.External.Orders.StatusConverter
 {
     public class OrderStatusConverter : IOrderStatusConverter
     {

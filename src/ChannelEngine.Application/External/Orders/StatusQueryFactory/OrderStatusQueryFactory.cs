@@ -1,8 +1,9 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.Application.Exceptions;
+﻿using ChannelEngine.Application.Exceptions;
+using ChannelEngine.Application.External.Orders;
+using ChannelEngine.Application.External.Orders.StatusConverter;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory
+namespace ChannelEngine.Application.External.Orders.StatusQueryFactory
 {
     public class OrderStatusQueryFactory : IOrderStatusQueryFactory
     {

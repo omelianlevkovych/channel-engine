@@ -1,8 +1,7 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
-using ChannelEngine.Application.ChannalEngineApi.Orders;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
-using ChannelEngine.Application.ChannalEngineApi.Responses;
-using ChannelEngine.Application.Configuration;
+﻿using ChannelEngine.Application.Configuration;
+using ChannelEngine.Application.External.Client.Interfaces;
+using ChannelEngine.Application.External.Orders;
+using ChannelEngine.Application.External.Orders.StatusQueryFactory;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.External.Responses;
 using Microsoft.AspNetCore.JsonPatch;
@@ -10,7 +9,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Client
+namespace ChannelEngine.Application.External.Client
 {
     public sealed class ChannelEngineApiClient : IChannelEngineApiClient
     {

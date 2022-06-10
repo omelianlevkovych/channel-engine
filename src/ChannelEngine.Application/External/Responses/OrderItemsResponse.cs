@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Responses
+namespace ChannelEngine.Application.External.Responses
 {
     public record OrderItemsResponse
     {
         [JsonProperty("Content")]
-        public IReadOnlyList<OrderResponse> Orders { get; init; }
+        public IReadOnlyList<OrderResponse>? Orders { get; init; }
         public int TotalCount { get; init; }
     }
 }

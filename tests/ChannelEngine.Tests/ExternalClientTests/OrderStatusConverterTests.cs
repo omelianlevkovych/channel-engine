@@ -1,9 +1,9 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Orders;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
+﻿using ChannelEngine.Application.External.Orders;
+using ChannelEngine.Application.External.Orders.StatusConverter;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ChannelEngine.Application.Tests.ChannelEngineApiTests
+namespace ChannelEngine.Application.Tests.ExternalClientTests
 {
     public class OrderStatusConverterTests
     {

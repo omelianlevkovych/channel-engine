@@ -1,5 +1,5 @@
 ﻿using ChannelEngine.Application.BusinessLogic;
-using ChannelEngine.Application.ChannalEngineApi.Orders;
+using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Console;
 using ChannelEngine.Console.DI;

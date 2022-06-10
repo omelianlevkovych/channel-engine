@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChannelEngine.Application.ChannalEngineApi.Responses
+namespace ChannelEngine.Application.External.Responses
 {
     public record OrderProductResponse
     {
@@ -10,5 +10,5 @@ namespace ChannelEngine.Application.ChannalEngineApi.Responses
 
         [JsonProperty("Gtin")]
         public string GlobalTradeItemNumber { get; init; } = string.Empty;
-     }
+    }
 }

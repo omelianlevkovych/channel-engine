@@ -1,10 +1,10 @@
 ﻿using ChannelEngine.Application.BusinessLogic;
-using ChannelEngine.Application.ChannalEngineApi.Client;
-using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
 using ChannelEngine.Application.Configuration;
-using ChannelEngine.Application.Gateways;
+using ChannelEngine.Application.External.Client;
+using ChannelEngine.Application.External.Client.Interfaces;
+using ChannelEngine.Application.External.Orders.StatusConverter;
+using ChannelEngine.Application.External.Orders.StatusQueryFactory;
+using ChannelEngine.Application.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChannelEngine.Console.DI

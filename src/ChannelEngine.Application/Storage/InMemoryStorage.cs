@@ -1,7 +1,7 @@
 ﻿using ChannelEngine.Application.Models;
 using System.Collections.Concurrent;
 
-namespace ChannelEngine.Application.Gateways
+namespace ChannelEngine.Application.Storage
 {
     /// <summary>
     /// This class emulates our 'orders in progress' in memory storage.

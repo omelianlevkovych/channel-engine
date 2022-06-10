@@ -1,9 +1,9 @@
-﻿using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
-using ChannelEngine.Application.ChannalEngineApi.Orders;
+﻿using ChannelEngine.Application.External.Client.Interfaces;
+using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
-using ChannelEngine.Application.Gateways;
 using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
+using ChannelEngine.Application.Storage;
 
 namespace ChannelEngine.Application.BusinessLogic
 {
@@ -21,6 +21,11 @@ namespace ChannelEngine.Application.BusinessLogic
         public async Task<IEnumerable<OrderModel>> GetOrders(IEnumerable<OrderStatus> filter)
         {
             var response = await _channelApi.GetOrders(filter);
+
+            if (response.Orders is null)
+            {
+                throw new Exception("");
+            }
 
             foreach (var order in response.Orders)
             {

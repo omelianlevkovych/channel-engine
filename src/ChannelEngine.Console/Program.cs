@@ -1,16 +1,11 @@
 ﻿using ChannelEngine.Application.BusinessLogic;
-using ChannelEngine.Application.ChannalEngineApi.Client;
-using ChannelEngine.Application.ChannalEngineApi.Client.Interfaces;
 using ChannelEngine.Application.ChannalEngineApi.Orders;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusConverter;
-using ChannelEngine.Application.ChannalEngineApi.Orders.StatusQueryFactory;
-using ChannelEngine.Application.Configuration;
 using ChannelEngine.Application.External.Requests;
-using ChannelEngine.Application.Gateways;
+using ChannelEngine.Console;
+using ChannelEngine.Console.DI;
 using ChannelEngine.Console.Mapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -20,16 +15,15 @@ var configuration = new ConfigurationBuilder()
 var services = new ServiceCollection();
 services.AddSingleton<IConfiguration>(configuration);
 
-ConfigureServices(services);
+services.AddDependencyInjection();
 
 var serviceProvider = services.BuildServiceProvider();
-var logic = serviceProvider.GetRequiredService<IBusinessLogic>();
+var businessLogic = serviceProvider.GetRequiredService<IBusinessLogic>();
 
-await GetInProgressOrders(logic);
-await GetTopProductsAndPatch(logic);
-Console.ReadLine();
+await GetInProgressOrders();
+await GetTopProductsAndPatch();
 
-async Task GetInProgressOrders(IBusinessLogic logic)
+async Task GetInProgressOrders()
 {
     var status = new List<OrderStatus>
     {
@@ -38,17 +32,20 @@ async Task GetInProgressOrders(IBusinessLogic logic)
 
     Console.WriteLine("\t---Orders with 'in progress' status---\t");
 
-    var ordersInProgress = await logic.GetOrders(status);
-    WriteToConsole(ordersInProgress.ToDto());
+    var ordersInProgress = await businessLogic.GetOrders(status);
+    var message = IOPrettifier.GetPrettyConsoleMesssage(ordersInProgress.ToDto());
+    Console.WriteLine(message);
 }
 
-async Task GetTopProductsAndPatch(IBusinessLogic logic)
+async Task GetTopProductsAndPatch()
 {
     const int takeTopProductsCount = 5;
     Console.WriteLine($"\t---Top {takeTopProductsCount} products in descending order sorted by total quantity---\t");
 
-    var topProducts = await logic.GetTopProductsDesc(takeTopProductsCount);
-    WriteToConsole(topProducts);
+    var topProducts = await businessLogic.GetTopProductsDesc(takeTopProductsCount);
+
+    var message = IOPrettifier.GetPrettyConsoleMesssage(topProducts);
+    Console.WriteLine(message);
 
     var productToPatch = topProducts.FirstOrDefault();
     if (productToPatch is null)
@@ -56,41 +53,22 @@ async Task GetTopProductsAndPatch(IBusinessLogic logic)
         throw new Exception("Product to patch is null");
     }
 
-    await PatchProduct(logic, productToPatch.Id);
+    await PatchProduct(productToPatch.Id);
 }
 
-async Task PatchProduct(IBusinessLogic logic, string productId)
+async Task PatchProduct(string productId)
 {
     Console.WriteLine($"\t---Patch product and return it state after update---\t");
-    await logic.PatchProduct(productId, new ProductPatchRequest
+    await businessLogic.PatchProduct(productId, new ProductPatchRequest
     {
         Stock = 1256,
     });
 
     Console.WriteLine($"Product '{productId}' has been patched succesfully!");
 
-    var updatedProduct = await logic.GetProduct(productId);
+    var updatedProduct = await businessLogic.GetProduct(productId);
 
     Console.WriteLine("Updated product:\n");
-    WriteToConsole(updatedProduct);
-}
-
-void WriteToConsole<T>(T result)
-{
-    var responseText = JsonSerializer.Serialize<T>(result, new JsonSerializerOptions
-    {
-        WriteIndented = true,
-    });
-    Console.WriteLine(responseText);
-}
-
-static void ConfigureServices(IServiceCollection serviceCollection)
-{
-    serviceCollection.AddSingleton<IOrderStatusConverter, OrderStatusConverter>();
-    serviceCollection.AddSingleton<IOrderStatusQueryFactory, OrderStatusQueryFactory>();
-    serviceCollection.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
-    serviceCollection.AddScoped<IBusinessLogic, BusinessLogic>();
-    serviceCollection.AddScoped<InMemoryStorage>();
-
-    serviceCollection.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
+    var message = IOPrettifier.GetPrettyConsoleMesssage(updatedProduct);
+    Console.WriteLine(message);
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json.Nodes;
 
 namespace ChannelEngine.Application.ChannalEngineApi.Client
 {
@@ -59,8 +60,30 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
             return product;
         }
 
-        // TODO : fix patch
-        public async Task PatchProductLegacy(string productId, ProductPatchRequest patch)
+        public async Task PatchProduct(string productId, ProductPatchRequest patch)
+        {
+            var url = $"api/v{version}/products/{productId}";
+
+            var patchObject = new
+            {
+                Op = "replace",
+                Value = patch.Stock,
+                Path = nameof(patch.Stock),
+            };
+
+            // For some reason, PATCH /v2/products only validates array but does not work with json object.
+            var array = new[] { patchObject };
+
+            var serializedArray = JsonConvert.SerializeObject(array);
+            var requestContent = new StringContent(serializedArray, Encoding.UTF8, "application/json-patch+json");
+            var response = await _httpClient.PatchAsync(url, requestContent);
+            response.EnsureSuccessStatusCode();
+        }
+
+        // This does not work, meanwhile it returns 200 with AcceptedCount not zero.
+        // It would be nice if you can explain what was the problem here.
+        [Obsolete]
+        private async Task PatchProductLegacy(string productId, ProductPatchRequest patch)
         {
             var url = $"api/v{version}/products/{productId}";
 
@@ -72,23 +95,6 @@ namespace ChannelEngine.Application.ChannalEngineApi.Client
 
             var response = await _httpClient.PatchAsync(url, requestContent);
             var responseJson = await response.Content.ReadAsStringAsync();
-            response.EnsureSuccessStatusCode();
-        }
-
-        public async Task PatchProduct(string productId, ProductPatchRequest patch)
-        {
-            var url = $"api/v{version}/products/{productId}";
-
-            var jsonRequestBody = new
-            {
-                Op = "replace",
-                Value = patch.Stock,
-                Path = nameof(patch.Stock),
-            };
-
-            var requestBody = JsonConvert.SerializeObject(jsonRequestBody);
-            var request = new HttpRequestMessage(HttpMethod.Get, requestBody);
-            var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
     }

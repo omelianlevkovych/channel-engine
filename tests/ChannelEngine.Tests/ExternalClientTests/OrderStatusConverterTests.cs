@@ -1,5 +1,6 @@
 ﻿using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Orders.StatusConverter;
+using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;
 
@@ -29,8 +30,8 @@ namespace ChannelEngine.Application.Tests.ExternalClientTests
             string inBackorder = _sut.Convert(OrderStatus.InBackorder);
 
             // Assert.
-            Assert.Equal(expectedResults.GetValueOrDefault(OrderStatus.InProgress), inProgress);
-            Assert.Equal(expectedResults.GetValueOrDefault(OrderStatus.InBackorder), inBackorder);
+            inProgress.Should().Be(expectedResults.GetValueOrDefault(OrderStatus.InProgress));
+            inBackorder.Should().Be(expectedResults.GetValueOrDefault(OrderStatus.InBackorder));
         }
     }
 }

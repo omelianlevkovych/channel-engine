@@ -1,6 +1,7 @@
 ﻿using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Orders.StatusConverter;
 using ChannelEngine.Application.External.Orders.StatusQueryFactory;
+using FluentAssertions;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
@@ -49,7 +50,7 @@ namespace ChannelEngine.Application.Tests.StatusQueryFactoryTests
             var result = _sut.CreateUrl(inputUrl, orderStatuses);
 
             // Assert.
-            Assert.Equal(expectedUrlResult, result);
+            result.Should().Be(expectedUrlResult);
         }
     }
 }

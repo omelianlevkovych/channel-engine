@@ -1,7 +1,7 @@
 ﻿using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Orders.StatusConverter;
 using ChannelEngine.Application.External.Orders.StatusQueryFactory;
-using Moq;
+using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
@@ -9,14 +9,13 @@ namespace ChannelEngine.Application.Tests.StatusQueryFactoryTests
 {
     public class OrderStatusQueryFactoryTests
     {
-        private readonly IOrderStatusQueryFactory _sut;
+        private readonly OrderStatusQueryFactory _sut;
 
-        private readonly Mock<IOrderStatusConverter> _statusConverterMoq;
+        private readonly IOrderStatusConverter _statusConverter = Substitute.For<IOrderStatusConverter>();
 
         public OrderStatusQueryFactoryTests()
         {
-            _statusConverterMoq = new Mock<IOrderStatusConverter>();
-            _sut = new OrderStatusQueryFactory(_statusConverterMoq.Object);
+            _sut = new OrderStatusQueryFactory(_statusConverter);
         }
 
         /*
@@ -42,10 +41,9 @@ namespace ChannelEngine.Application.Tests.StatusQueryFactoryTests
 
             const string expectedUrlResult = $"{inputUrl}?statuses={inProgressQuery}&statuses={inBackorderQuery}";
 
-            _statusConverterMoq.Setup(x => x.Convert(OrderStatus.InProgress))
-                .Returns(inProgressQuery);
-            _statusConverterMoq.Setup(x => x.Convert(OrderStatus.InBackorder))
-                .Returns(inBackorderQuery);
+            _statusConverter.Convert(OrderStatus.InProgress).Returns(inProgressQuery);
+
+            _statusConverter.Convert(OrderStatus.InBackorder).Returns(inBackorderQuery);
 
             // Act.
             var result = _sut.CreateUrl(inputUrl, orderStatuses);

@@ -7,7 +7,7 @@ namespace ChannelEngine.Application.Tests.ExternalClientTests
 {
     public class OrderStatusConverterTests
     {
-        private readonly IOrderStatusConverter _sut;
+        private readonly OrderStatusConverter _sut;
 
         public OrderStatusConverterTests()
         {

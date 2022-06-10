@@ -4,24 +4,24 @@ using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
-using ChannelEngine.Application.Storage;
+using ChannelEngine.Application.Storage.Interfaces;
 
-namespace ChannelEngine.Application.BusinessLogic
+namespace ChannelEngine.Application.BusinessLogics
 {
     public class BusinessLogic : IBusinessLogic
     {
-        private readonly InMemoryStorage _storage;
-        private readonly IChannelEngineApiClient _channelApi;
+        private readonly IInMemoryStorage _storage;
+        private readonly IChannelEngineApiClient _channelEngineApiClient;
 
-        public BusinessLogic(InMemoryStorage storage, IChannelEngineApiClient channelApi)
+        public BusinessLogic(IInMemoryStorage storage, IChannelEngineApiClient channelEngineApiClient)
         {
             _storage = storage;
-            _channelApi = channelApi;
+            _channelEngineApiClient = channelEngineApiClient;
         }
 
         public async Task<IEnumerable<OrderModel>> GetOrders(IEnumerable<OrderStatus> filter)
         {
-            var response = await _channelApi.GetOrders(filter);
+            var response = await _channelEngineApiClient.GetOrders(filter);
 
             if (response.Orders is null)
             {
@@ -38,7 +38,7 @@ namespace ChannelEngine.Application.BusinessLogic
 
         public async Task<ProductViewModel> GetProduct(string id)
         {
-            var product = await _channelApi.GetProduct(id);
+            var product = await _channelEngineApiClient.GetProduct(id);
             if (product is null)
             {
                 throw new ProductIsNotFoundException(id);
@@ -46,18 +46,23 @@ namespace ChannelEngine.Application.BusinessLogic
             return product.ToViewModel();
         }
 
-        public async Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count)
+        public async Task<IReadOnlyCollection<ProductModel>> GetTopProductsDesc(int count)
         {
             var orders = _storage.OrdersInProgress;
 
             var products = await GetCompleteProducts();
 
-            return products.OrderByDescending(x => x.TotalQuantity).Take(count);
+            var result = products
+                .OrderByDescending(x => x.TotalQuantity)
+                .Take(count);
+
+
+            return result.ToList().AsReadOnly();
         }
 
         public Task PatchProduct(string id, ProductPatchRequest patch)
         {
-            return _channelApi.PatchProduct(id, patch);
+            return _channelEngineApiClient.PatchProduct(id, patch);
         }
 
         /// <summary>
@@ -73,7 +78,7 @@ namespace ChannelEngine.Application.BusinessLogic
             // We have to setup names here as /orders do not have this field.
             foreach (var product in products)
             {
-                var response = await _channelApi.GetProduct(product.Id);
+                var response = await _channelEngineApiClient.GetProduct(product.Id);
                 product.SetName(response.Content.Name);
             }
 

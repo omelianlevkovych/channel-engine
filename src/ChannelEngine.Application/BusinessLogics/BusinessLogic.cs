@@ -46,13 +46,18 @@ namespace ChannelEngine.Application.BusinessLogics
             return product.ToViewModel();
         }
 
-        public async Task<IEnumerable<ProductModel>> GetTopProductsDesc(int count)
+        public async Task<IReadOnlyCollection<ProductModel>> GetTopProductsDesc(int count)
         {
             var orders = _storage.OrdersInProgress;
 
             var products = await GetCompleteProducts();
 
-            return products.OrderByDescending(x => x.TotalQuantity).Take(count);
+            var result = products
+                .OrderByDescending(x => x.TotalQuantity)
+                .Take(count);
+
+
+            return result.ToList().AsReadOnly();
         }
 
         public Task PatchProduct(string id, ProductPatchRequest patch)

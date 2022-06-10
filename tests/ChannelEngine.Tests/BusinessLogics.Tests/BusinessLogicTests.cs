@@ -26,7 +26,7 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
         public async Task GetTopProductsDesc_Should_Return_Correctly()
         {
             // Arrange.
-            const int takeCount = 5;
+            const int takeCount = 4;
             const string productName = "default-name";
 
             _apiClient.GetProduct(Arg.Any<string>()).Returns(new ProductResponse
@@ -84,17 +84,18 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
 
             var expectedResult = new List<ProductModel>
             {
-                product11,
                 product21,
-                product22,
                 product23,
-            };
+                product11,
+                product22,
+            }.AsReadOnly();
 
             // Act.
             var result = await _sut.GetTopProductsDesc(takeCount);
 
             // Assert.
             result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeInDescendingOrder(x => x.TotalQuantity);
         }
     }
 }

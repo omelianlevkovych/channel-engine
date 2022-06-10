@@ -10,6 +10,8 @@ Some high level overview:
 
 # technologies & other
 - .Net Core & C#
+- Polly for HTTP retires
+- Serilog for persistent logging
 - git, gitflow
 - xUnit, FluentAssertion, NSubstitute
 - TDD & DDD, SOLID & best practices

@@ -9,12 +9,12 @@ Some high level overview:
 ![highlevel](https://github.com/omelianlevkovych/channel-engine/blob/main/assets/overview.png)
 
 # technologies & other
-- .Net Core & C#
-- Polly for HTTP retires
-- Serilog for persistent logging
-- git, gitflow
-- xUnit, FluentAssertion, NSubstitute
-- TDD & DDD, SOLID & best practices
+- **dotnet6** & C#
+- **Polly** for HTTP retires
+- **Serilog** for persistent logging
+- **git**, gitflow
+- xUnit, **FluentAssertion**, **NSubstitute**
+- TDD & **DDD**, SOLID & best practices
 - github actions
 
 # buid, test
@@ -30,7 +30,7 @@ cd [project-root-dir]
 dotnet test
 ```
 
-You will have to provide ```ApiKey``` by changing the environment variable or by changing the appsettings.json value.
+You will **have to provide** ```ApiKey``` by changing the environment variable or by changing the appsettings.json value.
 
 # todo
 - add mvc

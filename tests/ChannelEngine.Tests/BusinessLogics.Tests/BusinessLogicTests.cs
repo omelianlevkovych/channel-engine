@@ -44,10 +44,13 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
             };
             var product11 = new ProductModel("id-11", "gtn-11", 2);
             product11.SetName(productName);
+            var product12 = new ProductModel("id-12", "gtn-11", 1);
+            product12.SetName(productName);
 
             var products101 = new List<ProductModel>
             {
                 product11,
+                product12,
             };
             order101.AddProducts(products101);
 
@@ -63,16 +66,18 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
             product22.SetName(productName);
             var product23 = new ProductModel("id-23", "gtn-23", 6);
             product23.SetName(productName);
+            var specificOrder = new ProductModel("id-12", "gtn-11", 2);
+            specificOrder.SetName(productName);
 
             var products102 = new List<ProductModel>
             {
                 product21,
                 product22,
                 product23,
+                specificOrder,
             };
             order102.AddProducts(products102);
 
-            // second order
 
             var ordersInProgress = new List<OrderModel>
             {
@@ -82,12 +87,15 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
 
             _storage.OrdersInProgress.Returns(ordersInProgress);
 
+            var mergedOrder = new ProductModel("id-12", "gtn-11", 3);
+            mergedOrder.SetName(productName);
+
             var expectedResult = new List<ProductModel>
             {
                 product21,
                 product23,
+                mergedOrder,
                 product11,
-                product22,
             }.AsReadOnly();
 
             // Act.

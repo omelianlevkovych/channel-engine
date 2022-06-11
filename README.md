@@ -32,10 +32,6 @@ dotnet test
 
 You will **have to provide** ```ApiKey``` by changing the environment variable or by changing the appsettings.json value.
 
-# todo
-- add polly for retries
-
-
 # notes
 - patch endpoint only accepts arrays. In case I have a single patch operation like:
 ```JSON

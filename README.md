@@ -1,16 +1,15 @@
 # Table of Content
-- [channel-engine](#channel-engine)
 - [introduction](#introduction)
 - [technologies & other](#technologies--other)
 - [buid & test](#buid--test)
 - [notes](#notes)
 
-# channel-engine
-ChannelEngine API consumer with console &amp; MVC endpoints.
-
 # introduction
+ChannelEngine API consumer with console &amp; MVC endpoints.  
+
 Data-oriented monolith application is mainly responsible for calling third-party and processing some business logic.  
-The ChannelEngine swagger documentation ```https://api-dev.channelengine.net/api/```  
+The ChannelEngine swagger documentation:  
+```https://api-dev.channelengine.net/api/```  
 
 Some high level overview:  
 ![highlevel](https://github.com/omelianlevkovych/channel-engine/blob/main/assets/overview.png)

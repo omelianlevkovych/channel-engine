@@ -1,4 +1,5 @@
 using ChannelEngine.Application;
+using ChannelEngine.MVC.Middlewares.ErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplication();
 
 var app = builder.Build();
+
+app.UseCustomExceptions();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

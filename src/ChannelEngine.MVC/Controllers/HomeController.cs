@@ -4,6 +4,7 @@ using ChannelEngine.MVC.Models;
 using ChannelEngine.Application.BusinessLogics;
 using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
+using ChannelEngine.MVC.Exceptions;
 
 namespace ChannelEngine.MVC.Controllers;
 
@@ -34,7 +35,7 @@ public class HomeController : Controller
         var productToUpdate = products.LastOrDefault();
         if (productToUpdate is null)
         {
-            throw new Exception("fwa");
+            throw new ProductToPatchIsMissing();
         }
         await _businessLogic.PatchProduct(productToUpdate.Id, new ProductPatchRequest
         {

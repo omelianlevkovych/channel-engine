@@ -27,12 +27,12 @@ namespace ChannelEngine.MVC.Middlewares.ErrorHandling
             }
         }
 
-        private static async Task HandleException(HttpContext httpContext, Exception exe)
+        private static async Task HandleException(HttpContext httpContext, Exception ex)
         {
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = GetStatusCode(exe);
+            httpContext.Response.StatusCode = GetStatusCode(ex);
 
-            var errorDetails = GetErrorDetails(exe);
+            var errorDetails = GetErrorDetails(ex);
             await httpContext.Response.WriteAsync(errorDetails.ToString());
 
         }
@@ -47,7 +47,7 @@ namespace ChannelEngine.MVC.Middlewares.ErrorHandling
             return code;
         }
 
-        private static ErrorDetails GetErrorDetails(Exception exe)
+        private static ErrorDetails GetErrorDetails(Exception ex)
         {
             var errorDetails = new ErrorDetails
             {
@@ -55,10 +55,10 @@ namespace ChannelEngine.MVC.Middlewares.ErrorHandling
                 Message = "Error in handling the request. Sorry, please, try again a bit later!.",
             };
 
-            if (exe is ChannelEngineException)
+            if (ex is ChannelEngineException)
             {
-                errorDetails.StatusCode = GetStatusCode(exe);
-                errorDetails.Message = exe.Message;
+                errorDetails.StatusCode = GetStatusCode(ex);
+                errorDetails.Message = ex.Message;
             };
 
             return errorDetails;

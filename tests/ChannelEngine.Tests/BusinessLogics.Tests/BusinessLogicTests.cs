@@ -4,6 +4,7 @@ using ChannelEngine.Application.External.Responses;
 using ChannelEngine.Application.Models;
 using ChannelEngine.Application.Storage.Interfaces;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,10 +17,11 @@ namespace ChannelEngine.Application.Tests.BusinessLogics.Tests
         private readonly BusinessLogic _sut;
         private readonly IInMemoryStorage _storage = Substitute.For<IInMemoryStorage>();
         private readonly IChannelEngineApiClient _apiClient = Substitute.For<IChannelEngineApiClient>();
+        private readonly ILogger<BusinessLogic> _logger = Substitute.For<ILogger<BusinessLogic>>();
 
         public BusinessLogicTests()
         {
-            _sut = new BusinessLogic(_storage, _apiClient);
+            _sut = new BusinessLogic(_storage, _apiClient, _logger);
         }
 
         [Fact]

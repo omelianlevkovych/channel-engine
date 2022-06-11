@@ -1,8 +1,82 @@
-﻿@{
+﻿@using ChannelEngine.Application.Models
+@model ResponseModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Orders</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Id
+            </th>
+            <th>
+                Order Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Products</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Merchant Product No
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                GTIN
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GlobalTradeItemNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalQuantity)
+                </td>
+                <td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Updated Product</h2>
+ProductId: '@Model.UpdatedProduct.Id' <br>
+Name: '@Model.UpdatedProduct.Name' <br>
+Stock: '@Model.UpdatedProduct.Stock' <br>

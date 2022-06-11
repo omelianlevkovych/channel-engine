@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ChannelEngine.MVC.Models;
 using ChannelEngine.Application.BusinessLogics;
 using ChannelEngine.Application.External.Orders;
+using ChannelEngine.Application.External.Requests;
 
 namespace ChannelEngine.MVC.Controllers;
 
@@ -25,7 +26,31 @@ public class HomeController : Controller
         };
 
         var orders = await _businessLogic.GetOrders(orderStatuses);
-        return View(orders);
+
+        var displayProductsCount = 5;
+
+        var products = await _businessLogic.GetTopProductsDesc(displayProductsCount);
+
+        var productToUpdate = products.LastOrDefault();
+        if (productToUpdate is null)
+        {
+            throw new Exception("fwa");
+        }
+        await _businessLogic.PatchProduct(productToUpdate.Id, new ProductPatchRequest
+        {
+            Stock = 1256,
+        });
+
+        var updatedProduct = await _businessLogic.GetProduct(productToUpdate.Id);
+
+        var viewModel = new ResponseModel
+        {
+            Orders = orders,
+            Products = products,
+            UpdatedProduct = updatedProduct,
+        };
+
+        return View(viewModel);
     }
 
     public IActionResult Privacy()

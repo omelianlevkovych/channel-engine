@@ -1,7 +1,7 @@
 # Table of Content
 - [channel-engine](#channel-engine)
 - [introduction](#introduction)
-- [technologies & other](#technologies---other)
+- [technologies & other](#technologies--other)
 - [buid & test](#buid--test)
 - [notes](#notes)
 

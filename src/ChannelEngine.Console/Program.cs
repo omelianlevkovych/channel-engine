@@ -42,9 +42,9 @@ try
     {
         Log.Error("Oops, something went wrong. Please, try a bit later!");
     }
-    catch (ChannelEngineException exe)
+    catch (ChannelEngineException ex)
     {
-        Log.Error(exe.Message);
+        Log.Error(ex.Message);
     }
 
     async Task GetInProgressOrders()

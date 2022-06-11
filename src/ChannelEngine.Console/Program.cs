@@ -1,8 +1,6 @@
 ﻿using ChannelEngine.Application;
 using ChannelEngine.Application.BusinessLogics;
 using ChannelEngine.Application.Exceptions;
-using ChannelEngine.Application.External.Client;
-using ChannelEngine.Application.External.Client.Interfaces;
 using ChannelEngine.Application.External.Orders;
 using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Console;
@@ -20,8 +18,6 @@ var services = new ServiceCollection();
 services.AddSingleton<IConfiguration>(configuration);
 
 services.AddApplication();
-services.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
-
 
 var serviceProvider = services.BuildServiceProvider();
 var businessLogic = serviceProvider.GetRequiredService<IBusinessLogic>();

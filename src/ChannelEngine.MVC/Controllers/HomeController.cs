@@ -1,21 +1,31 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ChannelEngine.MVC.Models;
+using ChannelEngine.Application.BusinessLogics;
+using ChannelEngine.Application.External.Orders;
 
 namespace ChannelEngine.MVC.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IBusinessLogic _businessLogic;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IBusinessLogic businessLogic)
     {
         _logger = logger;
+        _businessLogic = businessLogic;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var orderStatuses = new List<OrderStatus>
+        {
+            OrderStatus.InProgress,
+        };
+
+        var orders = await _businessLogic.GetOrders(orderStatuses);
+        return View(orders);
     }
 
     public IActionResult Privacy()

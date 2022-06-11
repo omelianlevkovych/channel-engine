@@ -5,6 +5,7 @@ using ChannelEngine.Application.External.Requests;
 using ChannelEngine.Application.Mapper;
 using ChannelEngine.Application.Models;
 using ChannelEngine.Application.Storage.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace ChannelEngine.Application.BusinessLogics
 {
@@ -12,15 +13,22 @@ namespace ChannelEngine.Application.BusinessLogics
     {
         private readonly IInMemoryStorage _storage;
         private readonly IChannelEngineApiClient _channelEngineApiClient;
+        private readonly ILogger<BusinessLogic> _logger;
 
-        public BusinessLogic(IInMemoryStorage storage, IChannelEngineApiClient channelEngineApiClient)
+        public BusinessLogic(
+            IInMemoryStorage storage,
+            IChannelEngineApiClient channelEngineApiClient,
+            ILogger<BusinessLogic> logger)
         {
             _storage = storage;
             _channelEngineApiClient = channelEngineApiClient;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<OrderModel>> GetOrders(IEnumerable<OrderStatus> filter)
         {
+            _logger.LogInformation("Started getting orders");
+
             var response = await _channelEngineApiClient.GetOrders(filter);
 
             if (response.Orders is null)
@@ -38,6 +46,8 @@ namespace ChannelEngine.Application.BusinessLogics
 
         public async Task<ProductViewModel> GetProduct(string id)
         {
+            _logger.LogInformation("Started getting product '{id}'.", id);
+
             var product = await _channelEngineApiClient.GetProduct(id);
             if (product is null)
             {
@@ -48,6 +58,8 @@ namespace ChannelEngine.Application.BusinessLogics
 
         public async Task<IReadOnlyCollection<ProductModel>> GetTopProductsDesc(int count)
         {
+            _logger.LogInformation("Started getting '{count}' products in descending order.", count);
+
             var orders = _storage.OrdersInProgress;
 
             var products = await GetCompleteProducts();
@@ -62,6 +74,8 @@ namespace ChannelEngine.Application.BusinessLogics
 
         public Task PatchProduct(string id, ProductPatchRequest patch)
         {
+            _logger.LogInformation("Started patching product '{id}'", id);
+
             return _channelEngineApiClient.PatchProduct(id, patch);
         }
 

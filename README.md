@@ -1,3 +1,10 @@
+# Table of Content
+- [channel-engine](#channel-engine)
+- [introduction](#introduction)
+- [technologies & other](#technologies---other)
+- [buid & test](#buid--test)
+- [notes](#notes)
+
 # channel-engine
 ChannelEngine API consumer with console &amp; MVC endpoints.
 
@@ -17,7 +24,7 @@ Some high level overview:
 - TDD & **DDD**, SOLID & best practices
 - github actions
 
-# buid, test
+# buid & test
 In order to build a solution:
 ```dotnet
 cd [project-root-dir]

@@ -7,6 +7,7 @@ using ChannelEngine.Application.External.Orders.StatusQueryFactory;
 using ChannelEngine.Application.Storage;
 using ChannelEngine.Application.Storage.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 
 namespace ChannelEngine.Application
 {
@@ -20,7 +21,15 @@ namespace ChannelEngine.Application
             services.AddScoped<IChannelEngineApiConfiguration, ChannelEngineApiConfiguration>();
             services.AddScoped<IBusinessLogic, BusinessLogic>();
 
-            services.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>();
+            services.AddHttpClient<IChannelEngineApiClient, ChannelEngineApiClient>()
+                .AddTransientHttpErrorPolicy(policy => 
+                    policy.WaitAndRetryAsync(new[] {
+                        TimeSpan.FromMilliseconds(200),
+                        TimeSpan.FromMilliseconds(500),
+                        TimeSpan.FromSeconds(1),
+                        })
+                    );
+            
             return services;
         }
     }
